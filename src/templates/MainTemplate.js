@@ -1,18 +1,20 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ThemeProvider } from 'styled-components';
-import Button from 'components/atomic/Button/Button';
 import GlobalStyle from 'theme/GlobalStyles';
 import { theme } from 'theme/mainTheme';
 
-const Root = () =>
+const MainTemplate = ({ children }) =>
     <>
-        <GlobalStyle/>
+        <GlobalStyle />
         <ThemeProvider theme={theme}>
             <>
-                <Button>Add</Button>
-                <Button secondary width="500px">remove</Button>
+                {children}
             </>
         </ThemeProvider>
     </>;
+MainTemplate.propTypes = {
+    children: PropTypes.element.isRequired,
+};
 
-export default Root;
+export default MainTemplate;

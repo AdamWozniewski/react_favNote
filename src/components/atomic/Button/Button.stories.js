@@ -9,7 +9,7 @@ storiesOf('Button', module)
         const label = 'Colors';
         const options = {
             Primary: 'hsl(49, 100%, 58%)',
-            Secondary: 'hsl(169, 83%, 75%)',
+            Secondary: 'hsl(196, 83%, 75%)',
             Tertiary: 'hsl(106, 47%, 64%)',
         };
         const defaultValue = 'hsl(49, 100%, 58%)';
