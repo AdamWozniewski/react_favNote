@@ -6,7 +6,7 @@ import UserPageTemplate from "./UserPageTemplate";
 import Paragraph from "../components/atomic/Paragraph/Paragraph";
 import Button from "../components/atomic/Button/Button";
 import Heading from "../components/atomic/Heading/Heading";
-
+import withContext from "../hoc/withContext";
 const StyledWrapper = styled.div`
   padding: 25px 150px 25px 70px;
   max-width: 50vw;
@@ -51,27 +51,30 @@ const StyledImage = styled.img`
   height: 120px;
   border-radius: 50%;
 `;
-const DetailsTemplate = ({ pageType, title, created, content, articleUrl, twitterName }) =>
-  <UserPageTemplate pageType={pageType}>
+const DetailsTemplate = ({ pageContext, title, created, content, articleUrl, twitterName }) =>
+  <UserPageTemplate pageType={pageContext}>
     <StyledWrapper>
       <StyledPageHeader>
         <StyledHeading big as="h1">{title}</StyledHeading>
         <StyledParagraph>{created}</StyledParagraph>
       </StyledPageHeader>
       <Paragraph>{content}</Paragraph>
-      {pageType === 'articles' && <StyledLink href={articleUrl}>Open article</StyledLink>}
-      {pageType === 'twitters' && <StyledImage alt={title} src={`https://avatars.io/twitter/${twitterName}`} />}
-      <Button as={Link} to={`/${pageType}`} color={pageType}>save / close</Button>
+      {pageContext === 'articles' && <StyledLink href={articleUrl}>Open article</StyledLink>}
+      {pageContext === 'twitters' && <StyledImage alt={title} src={`https://avatars.io/twitter/${twitterName}`} />}
+      <Button as={Link} to={`/${pageContext}`} activecolor={pageContext}>Zapisz/Zamknij</Button>
     </StyledWrapper>
   </UserPageTemplate>;
 
 DetailsTemplate.propTypes = {
-  pageType: PropTypes.string.isRequired,
+  pageContext: PropTypes.string,
   title: PropTypes.string,
   created: PropTypes.string,
   content: PropTypes.string,
   articleUrl: PropTypes.string,
   twitterName: PropTypes.string,
+};
+DetailsTemplate.defaultProps = {
+  pageContext: 'notes',
 };
 
 DetailsTemplate.defaultProps = {
@@ -81,4 +84,4 @@ DetailsTemplate.defaultProps = {
   articleUrl: '',
   twitterName: '',
 };
-export default DetailsTemplate;
+export default withContext(DetailsTemplate);

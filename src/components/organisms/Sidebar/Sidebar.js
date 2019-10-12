@@ -7,7 +7,6 @@ import bulb from 'assets/icons/bulb.svg';
 import logout from 'assets/icons/logout.svg';
 import pen from 'assets/icons/pen.svg';
 import twitter from 'assets/icons/twitter.svg';
-import PropTypes from "prop-types";
 import withContext from "../../../hoc/withContext";
 
 const StylledWrapper = styled.nav`
@@ -49,13 +48,13 @@ const SideBar = ({ pageContext }) =>
         <StyledLogoLink to="/notes" />
         <StyledLinksList>
             <li>
-                <ButtonIcon as={NavLink} activeclass="active" to="/notes" icon={pen} >X</ButtonIcon>
+                <ButtonIcon as={NavLink} activeclass="active" to="/notes" icon={pen} />
             </li>
             <li>
-                <ButtonIcon as={NavLink} activeclass="active" to="/twitters" icon={twitter} >X</ButtonIcon>
+                <ButtonIcon as={NavLink} activeclass="active" to="/twitters" icon={twitter} />
             </li>
             <li>
-                <ButtonIcon as={NavLink} activeclass="active" to="/articles" icon={bulb} >X</ButtonIcon>
+                <ButtonIcon as={NavLink} activeclass="active" to="/articles" icon={bulb} />
             </li>
         </StyledLinksList>
         <StyledLogoutButton as={NavLink} to="/login" icon={logout} />

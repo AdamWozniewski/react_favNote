@@ -1,10 +1,18 @@
 import React, {Component} from "react";
 import DetailsTemplate from "../templates/DetailsTemplate";
 import { routes } from "../routes";
+import withContext from "../hoc/withContext";
+import PropTypes from "prop-types";
 
 class DetailPage extends Component {
     state = {
         pageType: 'notes',
+    };
+    static propTypes = {
+        pageContext: PropTypes.string,
+    };
+    static defaultProps = {
+        pageContext: 'notes',
     };
     componentDidMount() {
         switch (this.props.match.path) {
@@ -24,10 +32,10 @@ class DetailPage extends Component {
             created: '5 days',
             twitterName: "hello_roman",
         };
-        const { pageType } = this.state;
+        const { pageContext } = this.props;
         return (
             <DetailsTemplate
-                pageType={pageType}
+                pageType={pageContext}
                 title={article1.title}
                 created={article1.created}
                 content={article1.content}
@@ -39,4 +47,4 @@ class DetailPage extends Component {
 }
 
 
-export default DetailPage;
+export default withContext(DetailPage);

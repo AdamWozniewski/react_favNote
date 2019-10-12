@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import { theme as buttonColor} from "../../../theme/mainTheme";
 
 const Button = styled.button`
-  background-color: ${({ color }) => buttonColor[color]};
+  background-color: ${({ activecolor }) => buttonColor[activecolor]};
   width: 220px;
   height: 47px;
   border: 0;

@@ -10,13 +10,14 @@ class MainTemplate extends Component {
     state = {
         pageType: 'notes',
     };
-    propTypes = {
+    static propTypes = {
         children: PropTypes.element.isRequired,
+        location: PropTypes.object.isRequired,
     };
     componentDidMount () {
         this.setCurrentPage()
     }
-    componentDidUpdate (prevProps, prevState, snapshot) {
+    componentDidUpdate (prevProps, prevState) {
         this.setCurrentPage(prevState);
     }
 
