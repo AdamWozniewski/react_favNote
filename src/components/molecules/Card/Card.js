@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {Component} from 'react';
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import Button from '../../atomic/Button/Button';
 import Heading from '../../atomic/Heading/Heading';
 import Paragraph from '../../atomic/Paragraph/Paragraph';
 import linkIcon from 'assets/icons/link.svg';
+import { removeItem } from "../../../actions";
 
 const CARD_TYPE = {
   notes: 'notes',
@@ -60,30 +63,63 @@ const StyledLinkButton = styled.a`
   top: 25px;
   z-index: 1;
 `;
-const Card = ({ cardType }) =>
-    <StyledWrapper flex>
-        <InnerWrapper activeColor={cardType}>
-            <StyledHeading>Hello Adam</StyledHeading>
-            <DataInfo>3 dni temu</DataInfo>
-            {cardType === CARD_TYPE.twitters && <StyledAvatar src='https://avatars.io/twitter/hello_roman'/>}
-            {cardType === CARD_TYPE.articles && <StyledLinkButton href="https://strefakursow.pl"/>}
-        </InnerWrapper>
-        <InnerWrapper>
-            <Paragraph>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti facilis repellendus rerum sed. Ad architecto aut eum iste magnam minus molestiae officiis omnis recusandae? Accusamus eaque quae quas quibusdam voluptas.
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti facilis repellendus rerum sed. Ad architecto aut eum iste magnam minus molestiae officiis omnis recusandae? Accusamus eaque quae quas quibusdam voluptas.
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti facilis repellendus rerum sed. Ad architecto aut eum iste magnam minus molestiae officiis omnis recusandae? Accusamus eaque quae quas quibusdam voluptas.
-            </Paragraph>
-        </InnerWrapper>
-        <InnerWrapper>
-            <Button secondary>Remove</Button>
-        </InnerWrapper>
-    </StyledWrapper>;
+class Card extends Component {
+    state = {
+        redirect: false,
+    };
+    handleCardClick = () => this.setState({
+        redirect: true,
+    });
+    render() {
+        const { redirect } = this.state;
+        const {
+            id,
+            cardType,
+            title,
+            twitterName,
+            articleURL,
+            content,
+            created,
+            removeItem,
+        } = this.props;
+        if (redirect) return <Redirect to={`${cardType}/${id}`} />;
+        return (
+            <StyledWrapper onClick={this.handleCardClick}>
+                <InnerWrapper activeColor={cardType}>
+                    <StyledHeading>{title}</StyledHeading>
+                    <DataInfo>{created}</DataInfo>
+                    {cardType === CARD_TYPE.twitters && <StyledAvatar src={twitterName} />}
+                    {cardType === CARD_TYPE.articles && <StyledLinkButton href={articleURL} />}
+                </InnerWrapper>
+                <InnerWrapper>
+                    <Paragraph>
+                        {content}
+                    </Paragraph>
+                </InnerWrapper>
+                <InnerWrapper>
+                    <Button secondary onClick={() => removeItem(cardType, id)}>Remove</Button>
+                </InnerWrapper>
+            </StyledWrapper>
+        );
+    }
+}
+
 
 Card.propTypes = {
   cardType: PropTypes.oneOf([CARD_TYPE.notes, CARD_TYPE.articles, CARD_TYPE.twitters]),
+  title: PropTypes.string.isRequired,
+  created: PropTypes.string.isRequired,
+  twitterName: PropTypes.string,
+  articleURL: PropTypes.string,
+  content: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
 };
 Card.defaultProps = {
   cardType: CARD_TYPE.notes,
+  twitterName: null,
+  articleURL: null,
 };
-export default Card;
+const mapDispatchToProps = dispatch => ({
+    removeItem: (itemType, id) => dispatch(removeItem(itemType, id)),
+});
+export default connect(null, mapDispatchToProps)(Card);

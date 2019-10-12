@@ -7,6 +7,8 @@ import bulb from 'assets/icons/bulb.svg';
 import logout from 'assets/icons/logout.svg';
 import pen from 'assets/icons/pen.svg';
 import twitter from 'assets/icons/twitter.svg';
+import PropTypes from "prop-types";
+import withContext from "../../../hoc/withContext";
 
 const StylledWrapper = styled.nav`
   position: fixed;
@@ -42,21 +44,21 @@ const StyledLinksList = styled.ul`
   list-style: none;
 `;
 
-const SideBar = ({ pageType }) =>
-    <StylledWrapper activeColor={pageType}>
-        <StyledLogoLink to="/" />
+const SideBar = ({ pageContext }) =>
+    <StylledWrapper activeColor={pageContext}>
+        <StyledLogoLink to="/notes" />
         <StyledLinksList>
             <li>
-                <ButtonIcon exact as={NavLink} activeclass="active" to="/" icon={pen} />
+                <ButtonIcon as={NavLink} activeclass="active" to="/notes" icon={pen} >X</ButtonIcon>
             </li>
             <li>
-                <ButtonIcon as={NavLink} activeclass="active" to="/twitters" icon={twitter} />
+                <ButtonIcon as={NavLink} activeclass="active" to="/twitters" icon={twitter} >X</ButtonIcon>
             </li>
             <li>
-                <ButtonIcon as={NavLink} activeclass="active" to="/articles" icon={bulb} />
+                <ButtonIcon as={NavLink} activeclass="active" to="/articles" icon={bulb} >X</ButtonIcon>
             </li>
         </StyledLinksList>
         <StyledLogoutButton as={NavLink} to="/login" icon={logout} />
     </StylledWrapper>;
 
-export default SideBar;
+export default withContext(SideBar);

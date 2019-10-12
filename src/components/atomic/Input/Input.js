@@ -17,7 +17,7 @@ const Input = styled.input`
   ${({search}) => search && css`
     font-size: ${({ theme }) => theme.fontSize.xs};
     padding: 10px 20px 10px 40px;
-    background-color: url(${magnifierIcon});
+    background-image: url(${magnifierIcon});
     background-size: 15px;
     background-repeat: no-repeat;
     background-position: 10px 50%;

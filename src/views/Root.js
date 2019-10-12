@@ -1,19 +1,43 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { Provider } from "react-redux";
 import MainTemplate from "../templates/MainTemplate";
 import Articles from "./Articles";
 import Twitters from "./Twitters";
 import Notes from "./Notes";
+import DetailPage from "./DetailPage";
+import { routes } from "../routes";
+import store from "../store";
+
+const {
+    home,
+    notes,
+    note,
+    twitters,
+    twitter,
+    articles,
+    article,
+    // login,
+} = routes;
 
 const Root = () =>
-    <BrowserRouter>
-        <MainTemplate>
-            <Switch>
-                <Route exact path="/" component={Articles}/>
-                <Route exact path="/notes" component={Notes}/>
-                <Route exact path="/twitters" component={Twitters}/>
-            </Switch>
-        </MainTemplate>
-    </BrowserRouter>;
+    <Provider store={store}>
+        <BrowserRouter>
+            <MainTemplate>
+                <Switch>
+                    <Route exact path={home} render={() => <Redirect to="/notes"/>} />
+
+                    <Route exact path={notes} component={Notes}/>
+                    <Route path={note} component={DetailPage}/>
+
+                    <Route exact path={articles} component={Articles}/>
+                    <Route path={article} component={DetailPage}/>
+
+                    <Route exact path={twitters} component={Twitters}/>
+                    <Route path={twitter} component={DetailPage}/>
+                </Switch>
+            </MainTemplate>
+        </BrowserRouter>
+    </Provider>;
 
 export default Root;

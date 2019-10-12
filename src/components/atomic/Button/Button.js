@@ -1,7 +1,8 @@
 import styled, { css } from 'styled-components';
+import { theme as buttonColor} from "../../../theme/mainTheme";
 
 const Button = styled.button`
-  background-color: ${({theme}) => theme.twitters};
+  background-color: ${({ color }) => buttonColor[color]};
   width: 220px;
   height: 47px;
   border: 0;
