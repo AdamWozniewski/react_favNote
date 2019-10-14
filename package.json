@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@storybook/addon-knobs": "^5.2.0",
+    "axios": "^0.19.0",
     "eslint": "^6.3.0",
     "formik": "^1.5.8",
     "react": "^16.9.0",
@@ -12,6 +13,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.1.1",
     "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0",
     "storybook-react-router": "^1.0.8",
     "styled-components": "^4.3.2"
   },
@@ -41,6 +43,7 @@
     "@storybook/addon-links": "^5.2.0",
     "@storybook/addons": "^5.2.0",
     "@storybook/react": "^5.2.0",
+    "@testing-library/react": "^9.3.0",
     "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.6",
     "eslint-config-airbnb": "18.0.1",

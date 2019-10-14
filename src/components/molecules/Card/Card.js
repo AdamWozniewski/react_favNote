@@ -7,7 +7,7 @@ import Button from '../../atomic/Button/Button';
 import Heading from '../../atomic/Heading/Heading';
 import Paragraph from '../../atomic/Paragraph/Paragraph';
 import linkIcon from 'assets/icons/link.svg';
-import { removeItem } from "../../../actions";
+import { removeItemAction } from "../../../actions";
 import withContext from "../../../hoc/withContext";
 
 const CARD_TYPE = {
@@ -85,8 +85,8 @@ class Card extends Component {
         } = this.props;
         if (redirect) return <Redirect to={`${pageContext}/${id}`} />;
         return (
-            <StyledWrapper onClick={this.handleCardClick}>
-                <InnerWrapper activeColor={pageContext}>
+            <StyledWrapper>
+                <InnerWrapper onClick={this.handleCardClick} activeColor={pageContext}>
                     <StyledHeading>{title}</StyledHeading>
                     <DataInfo>{created}</DataInfo>
                     {pageContext === CARD_TYPE.twitters && <StyledAvatar src={twitterName} />}
@@ -121,6 +121,6 @@ Card.defaultProps = {
   articleURL: null,
 };
 const mapDispatchToProps = dispatch => ({
-    removeItem: (itemType, id) => dispatch(removeItem(itemType, id)),
+    removeItem: (itemType, id) => dispatch(removeItemAction(itemType, id)),
 });
 export default connect(null, mapDispatchToProps)(withContext(Card));

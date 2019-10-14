@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export const removeItem = (itemType, id) => ({
    type: 'REMOVE_ITEM',
    payload: {
@@ -17,3 +19,56 @@ export const addItem = (itemType, itemContent) => ({
         },
     }
 });
+const fetchItems = (itemType, data) => ({
+    type: 'FETCH_ITEMS',
+    payload: {
+        data,
+        itemType,
+    }
+});
+const authSuccess = payload => ({
+    type: 'AUTH_SUCCESS',
+    payload,
+});
+const authErr = payload => ({
+    type: 'AUTH_ERR',
+    payload,
+});
+export const removeItemAction = (itemType, id) => dispatch => {
+    return axios
+        .delete(`http://localhost:9000/api/note/${id}`)
+            .then(() => dispatch(removeItem(itemType, id)))
+            .catch(err => console.log(err))
+};
+export const addItemAction = (itemType, itemContent) => (dispatch, getState) => {
+    return axios
+        .post(`http://localhost:9000/api/note`, {
+            userID: getState().userID,
+            type: itemType,
+            ...itemContent,
+        })
+        .then(() => dispatch(addItem(itemType, itemContent)))
+        .catch(err => console.log(err))
+};
+export const auth = (username, psswd) => dispatch => {
+    return axios
+        .post('http://localhost:9000/api/user/login', {
+            username,
+            psswd
+        })
+        .then(data => dispatch(authSuccess(data)))
+        .catch(err => dispatch(authErr(err)))
+};
+
+export const fetchItemsAction = type => (dispatch, getState) => {
+    return axios
+        .post('http://localhost:9000/api/user/login', {
+            params: {
+                type,
+                userID: getState().userID,
+            }
+        }, {
+        })
+        .then(({ data }) => dispatch(fetchItems(type, data)))
+        .catch(err => err)
+};

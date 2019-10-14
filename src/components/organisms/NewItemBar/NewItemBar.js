@@ -6,7 +6,7 @@ import Input from "../../atomic/Input/Input";
 import Button from "../../atomic/Button/Button";
 import withContext from "../../../hoc/withContext";
 import Heading from "../../atomic/Heading/Heading";
-import { addItem as addItemAction } from "../../../actions";
+import { addItemAction } from "../../../actions";
 import { Formik, Form } from 'formik';
 
 const StyledWrapper = styled.div`
@@ -52,7 +52,7 @@ const NewItemBar = ({ pageContext, isVisible, addItem, handleClose }) =>
                 created: '',
             }}
             onSubmit={values => {
-                addItem(pageContext, {...values, created: 'asfasf'});
+                addItem(pageContext, {...values});
                 handleClose();
             }}
         >

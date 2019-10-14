@@ -8,6 +8,7 @@ import Notes from "./Notes";
 import DetailPage from "./DetailPage";
 import { routes } from "../routes";
 import store from "../store";
+import Login from "./Login";
 
 const {
     home,
@@ -17,7 +18,7 @@ const {
     twitter,
     articles,
     article,
-    // login,
+    login,
 } = routes;
 
 const Root = () =>
@@ -25,6 +26,8 @@ const Root = () =>
         <BrowserRouter>
             <MainTemplate>
                 <Switch>
+                    <Route exact path={login} component={Login} />
+
                     <Route exact path={home} render={() => <Redirect to="/notes"/>} />
 
                     <Route exact path={notes} component={Notes}/>

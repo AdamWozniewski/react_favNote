@@ -1,12 +1,21 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import axios from 'axios';
 import DetailsTemplate from "../templates/DetailsTemplate";
 import { routes } from "../routes";
 import withContext from "../hoc/withContext";
-import PropTypes from "prop-types";
 
 class DetailPage extends Component {
     state = {
         pageType: 'notes',
+        activeItem: {
+            title: '',
+            created: '',
+            content: '',
+            articleUrl: '',
+            twitterName: '',
+        },
     };
     static propTypes = {
         pageContext: PropTypes.string,
@@ -15,6 +24,16 @@ class DetailPage extends Component {
         pageContext: 'notes',
     };
     componentDidMount() {
+        if (this.props.activeItem) {
+            const [ activeItem ] = this.props.activeItem;
+            this.setState({
+                activeItem,
+            });
+        } else {
+            const { id } = this.props.match.params;
+            axios.get(`http://localhost:9000/api${this.props.match.path}/${id}`)
+                .then(({ data }) => console.log(data));
+        }
         switch (this.props.match.path) {
             case routes.twitter: this.setState({ pageType: 'twitters' }); break;
             case routes.note: this.setState({ pageType: 'notes' }); break;
@@ -23,28 +42,26 @@ class DetailPage extends Component {
     }
 
     render() {
-        const article1 = {
-            id: 1,
-            title: 'You gave React a bad name',
-            content:
-                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
-            articleUrl: 'https://youtube.com/helloroman',
-            created: '5 days',
-            twitterName: "hello_roman",
-        };
         const { pageContext } = this.props;
+        const { activeItem } = this.state;
         return (
             <DetailsTemplate
                 pageType={pageContext}
-                title={article1.title}
-                created={article1.created}
-                content={article1.content}
-                articleUrl={article1.articleUrl}
-                twitterName={article1.twitterName}
+                title={activeItem.title}
+                created={activeItem.created}
+                content={activeItem.content}
+                articleUrl={activeItem.articleUrl}
+                twitterName={activeItem.twitterName}
             />
         );
     }
 }
 
-
-export default withContext(DetailPage);
+const mapStateToProps = (state, ownProps) => { // ownProps zbiera propsy które są przekazywane do komponentu
+    if (state[ownProps.pageContext])
+        return {
+            activeItem: state[ownProps.pageContext].filter(item => item.id === ownProps.match.params.id)
+        };
+    return null
+};
+export default withContext(connect(mapStateToProps, null)(DetailPage)); // tym razem inaczej

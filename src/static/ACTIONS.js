@@ -1,0 +1,10 @@
+const ACTIONS = {
+    REMOVE_ITEM: 'REMOVE_ITEM',
+    ADD_ITEM: 'ADD_ITEM',
+
+    AUTH_ERR: 'AUTH_ERR',
+    AUTH_SUCCESS: 'AUTH_SUCCESS',
+
+    FETCH_ITEMS: 'FETCH_ITEMS',
+};
+export default ACTIONS;
