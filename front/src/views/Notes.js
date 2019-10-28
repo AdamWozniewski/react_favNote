@@ -23,7 +23,7 @@ const Notes = ({ notes }) =>
             }
         </>
     </GridTemplate>;
-GridTemplate.propsTypes = {
+Notes.propsTypes = {
     notes: PropTypes.array.isRequired,
 };
 const mapStateToProps = ({ notes }) => ({

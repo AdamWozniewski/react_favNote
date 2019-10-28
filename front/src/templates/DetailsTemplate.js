@@ -73,11 +73,9 @@ DetailsTemplate.propTypes = {
   articleUrl: PropTypes.string,
   twitterName: PropTypes.string,
 };
-DetailsTemplate.defaultProps = {
-  pageContext: 'notes',
-};
 
 DetailsTemplate.defaultProps = {
+  pageContext: 'notes',
   title: '',
   created: '',
   content: '',

@@ -11,22 +11,21 @@ class Twitters extends Component {
     }
 
     render () {
-        const {twitters} = this.props;
+        const { twitters } = this.props;
+        console.log(twitters)
         return (
             <GridTemplate pageType='twitters'>
-                <>
-                    {twitters.map(({title, content, twitterName, created, _id: id}) => (
-                        <Card
-                            id={id}
-                            cardType="twitters"
-                            title={title}
-                            content={content}
-                            twitterName={twitterName}
-                            created={created}
-                            key={id}
-                        />
-                    ))}
-                </>
+                {twitters.map(({title, content, twitterName, created, _id: id}) => (
+                    <Card
+                        id={id}
+                        cardType="twitters"
+                        title={title}
+                        content={content}
+                        twitterName={twitterName}
+                        created={created}
+                        key={id}
+                    />
+                ))}
             </GridTemplate>
         );
     }

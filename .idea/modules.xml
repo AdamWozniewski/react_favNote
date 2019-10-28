@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/fav-note.iml" filepath="$PROJECT_DIR$/.idea/fav-note.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/react_favNote.iml" filepath="$PROJECT_DIR$/.idea/react_favNote.iml" />
     </modules>
   </component>
 </project>

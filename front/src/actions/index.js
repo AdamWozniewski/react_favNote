@@ -8,13 +8,12 @@ export const removeItem = (itemType, id) => ({
    }
 });
 
-const idGenerator = () => `${Math.random().toString(36).sub(2, 9)}`;
+// const idGenerator = () => `${Math.random().toString(36).sub(2, 9)}`;
 export const addItem = (itemType, itemContent) => ({
     type: 'ADD_ITEM',
     payload: {
         itemType,
         item: {
-            id: idGenerator(),
             ...itemContent
         },
     }
@@ -50,19 +49,27 @@ export const addItemAction = (itemType, itemContent) => (dispatch, getState) => 
         .then(() => dispatch(addItem(itemType, itemContent)))
         .catch(err => console.log(err))
 };
-export const auth = (username, psswd) => dispatch => {
+export const auth = (username, password) => dispatch => {
     return axios
         .post('http://localhost:9000/api/user/login', {
             username,
-            psswd
+            password
         })
         .then(data => dispatch(authSuccess(data)))
         .catch(err => dispatch(authErr(err)))
 };
-
+export const register = (username, password) => dispatch => {
+    return axios
+        .post('http://localhost:9000/api/user/register', {
+            username,
+            password
+        })
+        .then(data => dispatch(authSuccess(data)))
+        .catch(err => dispatch(authErr(err)))
+};
 export const fetchItemsAction = type => (dispatch, getState) => {
     return axios
-        .post('http://localhost:9000/api/user/login', {
+        .post('http://localhost:9000/api/notes', {
             params: {
                 type,
                 userID: getState().userID,

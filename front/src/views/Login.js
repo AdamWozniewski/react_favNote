@@ -47,7 +47,7 @@ const Login = ({
                 if (userID) return <Redirect to="/" />;
                 else return (
                     <>
-                        <Heading>Sign in</Heading>
+                        <Heading>Zaloguj się</Heading>
                         <StyledForm>
                             <StyledInput
                                 name="username"
