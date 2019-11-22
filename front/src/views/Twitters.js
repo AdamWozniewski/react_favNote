@@ -1,18 +1,16 @@
 import React, {Component} from 'react';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Card from "../components/molecules/Card/Card";
-import GridTemplate from "../templates/GridTemplate";
-import { fetchItemsAction } from "../actions";
+import Card from '../components/molecules/Card/Card';
+import GridTemplate from '../templates/GridTemplate';
+import { fetchItemsAction } from '../actions';
 
 class Twitters extends Component {
     componentDidMount() {
         this.props.fetchTwitters();
     }
-
     render () {
         const { twitters } = this.props;
-        console.log(twitters)
         return (
             <GridTemplate pageType='twitters'>
                 {twitters.map(({title, content, twitterName, created, _id: id}) => (

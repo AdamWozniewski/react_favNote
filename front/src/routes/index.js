@@ -11,4 +11,5 @@ export const routes = {
     article: '/articles/:id',
 
     login: '/login',
+    registration: '/registration',
 };

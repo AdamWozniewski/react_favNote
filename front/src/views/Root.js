@@ -1,14 +1,14 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import { Provider } from "react-redux";
-import MainTemplate from "../templates/MainTemplate";
-import Articles from "./Articles";
-import Twitters from "./Twitters";
-import Notes from "./Notes";
-import DetailPage from "./DetailPage";
-import { routes } from "../routes";
-import store from "../store";
-import Login from "./Login";
+import { Provider } from 'react-redux';
+import MainTemplate from '../templates/MainTemplate';
+import Articles from './Articles';
+import Twitters from './Twitters';
+import Notes from './Notes';
+import DetailPage from './DetailPage';
+import { routes } from '../routes';
+import store from '../store';
+import Login from './Login';
 
 const {
     home,
@@ -19,6 +19,7 @@ const {
     articles,
     article,
     login,
+    registration,
 } = routes;
 
 const Root = () =>
@@ -27,6 +28,7 @@ const Root = () =>
             <MainTemplate>
                 <Switch>
                     <Route exact path={login} component={Login} />
+                    <Route exact path={registration} render={() => <Login isRegistration />} />
 
                     <Route exact path={home} render={() => <Redirect to="/notes"/>} />
 

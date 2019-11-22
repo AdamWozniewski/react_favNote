@@ -1,14 +1,14 @@
 import React from 'react';
-import { connect } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
-import styled from "styled-components";
-import { Formik, Form } from "formik";
-import Button from "../components/atomic/Button/Button";
-import { auth } from "../actions";
-import AuthTemplate from "../templates/AuthTemplate";
-import { routes } from "../routes";
-import Heading from "../components/atomic/Heading/Heading";
-import Input from "../components/atomic/Input/Input";
+import { connect } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
+import styled from 'styled-components';
+import { Formik, Form } from 'formik';
+import Button from '../components/atomic/Button/Button';
+import { auth } from '../actions';
+import AuthTemplate from '../templates/AuthTemplate';
+import { routes } from '../routes';
+import Heading from '../components/atomic/Heading/Heading';
+import Input from '../components/atomic/Input/Input';
 
 const StyledForm = styled(Form)`
   display: flex;
@@ -34,16 +34,19 @@ const StyledLink = styled(Link)`
 const Login = ({
        userID,
        authAction,
+       ...props,
    }) =>
     <AuthTemplate>
         <Formik
             initialValues={{
                 username: '',
                 password: '',
+                ...(props.isRegistration && { registration: '' })
             }}
             onSubmit={({ username, password }) => authAction(username, password)}
         >
             {({ handleChange, handleBlur, values }) => {
+                const { isRegistration } = props;
                 if (userID) return <Redirect to="/" />;
                 else return (
                     <>
@@ -52,6 +55,7 @@ const Login = ({
                             <StyledInput
                                 name="username"
                                 type="text"
+                                placeholder="Login"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
                                 value={values.username}
@@ -59,13 +63,22 @@ const Login = ({
                             <StyledInput
                                 name="password"
                                 type="password"
+                                placeholder="Hasło"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
                                 value={values.password}
                             />
-                            <Button type="submit" activecolor="notes">Zaloguj się</Button>
+                            {isRegistration && <StyledInput
+                                name="registration"
+                                type="password"
+                                placeholder="Powtórz hasło"
+                                onBlur={handleBlur}
+                                onChange={handleChange}
+                                value={values.registration}
+                            />}
+                            <Button type="submit" activecolor="notes">{isRegistration ? 'Zarejestruj się' : 'Zaloguj się'}</Button>
 
-                            <StyledLink to={routes.login}>Chcę mieć konto!</StyledLink>
+                            <StyledLink to={!isRegistration ? routes.registration : routes.login}>{!isRegistration ? 'Chcę mieć konto!' : 'Mam juz konto'}</StyledLink>
                         </StyledForm>
                     </>
 
@@ -73,6 +86,7 @@ const Login = ({
             }}
         </Formik>
     </AuthTemplate>;
+// const mapStateToProps = ({userID = {}}) => ({
 const mapStateToProps = ({userID = null}) => ({
     userID,
 });

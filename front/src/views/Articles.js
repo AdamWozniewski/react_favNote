@@ -1,7 +1,7 @@
 import React from 'react';
-import { connect } from "react-redux";
-import Card from "../components/molecules/Card/Card";
-import GridTemplate from "../templates/GridTemplate";
+import { connect } from 'react-redux';
+import Card from '../components/molecules/Card/Card';
+import GridTemplate from '../templates/GridTemplate';
 
 const Articles = ({ articles }) =>
     <GridTemplate pageType='articles'>
