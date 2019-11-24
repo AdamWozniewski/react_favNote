@@ -17,12 +17,28 @@ class DetailPage extends Component {
             twitterName: '',
         },
     };
+
     static propTypes = {
         pageContext: PropTypes.string,
+        activeItem: PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.string.isRequired,
+                title: PropTypes.string.isRequired,
+                content: PropTypes.string.isRequired,
+                twitterName: PropTypes.string.isRequired,
+                created: PropTypes.string.isRequired,
+            }),
+        ),
+        // match: PropTypes.oneOf([PropTypes.object]),
+        match: PropTypes.object,
     };
+
     static defaultProps = {
         pageContext: 'notes',
+        activeItem: [],
+        match: {},
     };
+
     componentDidMount() {
         const { match } = this.props;
         if (!this.props.activeItem) {
@@ -43,7 +59,7 @@ class DetailPage extends Component {
             case routes.twitter: this.setState({ pageType: 'twitters' }); break;
             case routes.note: this.setState({ pageType: 'notes' }); break;
             case routes.article: this.setState({ pageType: 'articles' }); break;
-            default: this.setState({ pageType: 'twitters' }); break;
+            default: this.setState({ pageType: 'notes' }); break;
         }
     }
 

@@ -46,13 +46,20 @@ class GridTemplate extends Component {
     state = {
         isNewItemBarVision: false,
     };
+
     static propTypes = {
         children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
-        pageContext: PropTypes.string.isRequired,
+        pageContext: PropTypes.string,
     };
+
+    static defaultProps = {
+        pageContext: 'notes',
+    };
+
     handleNewItemBarToggle = () => this.setState(prevState => ({
         isNewItemBarVision: !prevState.isNewItemBarVision,
     }));
+
     render() {
         const { children, pageContext } = this.props;
         const { isNewItemBarVision } = this.state;

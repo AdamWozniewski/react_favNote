@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Heading from "../components/atomic/Heading/Heading";
 import logoImg from 'assets/icons/logo.svg';
+import PropTypes from "prop-types";
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -37,5 +38,10 @@ const AuthTemplate = ({ children }) => (
         <StyledAuthCard>{children}</StyledAuthCard>
     </StyledWrapper>
 );
-
+AuthTemplate.propTypes = {
+    // children: PropTypes.object,
+};
+AuthTemplate.defaultProps = {
+    // children: '',
+};
 export default AuthTemplate;

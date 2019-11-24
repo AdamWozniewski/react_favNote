@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from "prop-types";
 import Card from '../components/molecules/Card/Card';
 import GridTemplate from '../templates/GridTemplate';
 
@@ -24,7 +25,12 @@ const Articles = ({ articles }) =>
                 }
         </>
     </GridTemplate>;
-
+Articles.propTypes = {
+    articles: PropTypes.oneOf([PropTypes.array]),
+};
+Articles.defaultProps = {
+    articles: [],
+};
 const mapStateToProps = ({ articles }) => ({
     articles,
 });

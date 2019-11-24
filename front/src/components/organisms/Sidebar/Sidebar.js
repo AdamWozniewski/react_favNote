@@ -8,6 +8,7 @@ import logout from 'assets/icons/logout.svg';
 import pen from 'assets/icons/pen.svg';
 import twitter from 'assets/icons/twitter.svg';
 import withContext from "../../../hoc/withContext";
+import PropTypes from "prop-types";
 
 const StylledWrapper = styled.nav`
   position: fixed;
@@ -59,5 +60,10 @@ const SideBar = ({ pageContext }) =>
         </StyledLinksList>
         <StyledLogoutButton as={NavLink} to="/login" icon={logout} />
     </StylledWrapper>;
-
+SideBar.propTypes = {
+    pageContext: PropTypes.string,
+};
+SideBar.defaultProps = {
+    pageContext: 'notes',
+};
 export default withContext(SideBar);

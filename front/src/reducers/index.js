@@ -4,7 +4,7 @@ const initialState = {
     twitters: [],
     notes: [],
     articles: [],
-    userID: {},
+    // userID: {},
 };
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {

@@ -68,9 +68,11 @@ class Card extends Component {
     state = {
         redirect: false,
     };
+
     handleCardClick = () => this.setState({
         redirect: true,
     });
+
     render() {
         const { redirect } = this.state;
         const {
@@ -113,6 +115,7 @@ Card.propTypes = {
   twitterName: PropTypes.string,
   articleURL: PropTypes.string,
   content: PropTypes.string.isRequired,
+  removeItem: PropTypes.func.isRequired,
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
 };
 Card.defaultProps = {

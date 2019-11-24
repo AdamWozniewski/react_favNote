@@ -7,8 +7,10 @@ import { fetchItemsAction } from '../actions';
 
 class Twitters extends Component {
     componentDidMount() {
-        this.props.fetchTwitters();
+        const { fetchTwitters } = this.props;
+        fetchTwitters();
     }
+
     render () {
         const { twitters } = this.props;
         return (
@@ -29,7 +31,6 @@ class Twitters extends Component {
     }
 }
 
-
 Twitters.propTypes = {
     twitters: PropTypes.arrayOf(
         PropTypes.shape({
@@ -40,6 +41,7 @@ Twitters.propTypes = {
             created: PropTypes.string.isRequired,
         }),
     ),
+    fetchTwitters: PropTypes.func.isRequired,
 };
 Twitters.defaultProps = {
     twitters: [],

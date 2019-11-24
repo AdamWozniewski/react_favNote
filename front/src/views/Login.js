@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from "prop-types";
 import { Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { Formik, Form } from 'formik';
 import Button from '../components/atomic/Button/Button';
-import { auth } from '../actions';
+import { auth, register } from '../actions';
 import AuthTemplate from '../templates/AuthTemplate';
 import { routes } from '../routes';
 import Heading from '../components/atomic/Heading/Heading';
@@ -34,6 +35,7 @@ const StyledLink = styled(Link)`
 const Login = ({
        userID,
        authAction,
+       registerAction,
        ...props,
    }) =>
     <AuthTemplate>
@@ -76,7 +78,13 @@ const Login = ({
                                 onChange={handleChange}
                                 value={values.registration}
                             />}
-                            <Button type="submit" activecolor="notes">{isRegistration ? 'Zarejestruj się' : 'Zaloguj się'}</Button>
+                            <Button
+                                type="submit"
+                                activecolor="notes"
+                                onClick={() => isRegistration ? registerAction() : authAction()}
+                            >
+                                {isRegistration ? 'Zarejestruj się' : 'Zaloguj się'}
+                            </Button>
 
                             <StyledLink to={!isRegistration ? routes.registration : routes.login}>{!isRegistration ? 'Chcę mieć konto!' : 'Mam juz konto'}</StyledLink>
                         </StyledForm>
@@ -86,11 +94,21 @@ const Login = ({
             }}
         </Formik>
     </AuthTemplate>;
-// const mapStateToProps = ({userID = {}}) => ({
+Login.propTypes = {
+    userID: PropTypes.object,
+    authAction: PropTypes.func.isRequired,
+    registerAction: PropTypes.func.isRequired,
+    isRegistration: PropTypes.bool,
+};
+Login.defaultProps = {
+    isRegistration: false,
+    userID: null,
+};
 const mapStateToProps = ({userID = null}) => ({
     userID,
 });
 const mapDispatchToProps = dispatch => ({
     authAction: (login, psswd) => dispatch(auth(login, psswd)),
+    registerAction: (login, psswd) => dispatch(register(login, psswd)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

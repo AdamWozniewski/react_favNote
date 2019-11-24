@@ -10,13 +10,16 @@ class MainTemplate extends Component {
     state = {
         pageType: 'notes',
     };
+
     static propTypes = {
         children: PropTypes.element.isRequired,
         location: PropTypes.object.isRequired,
     };
+
     componentDidMount () {
         this.setCurrentPage()
     }
+
     componentDidUpdate (prevProps, prevState) {
         this.setCurrentPage(prevState);
     }
@@ -31,6 +34,7 @@ class MainTemplate extends Component {
         const [ currentPage ] = pageTypes.filter(page => pathname.includes(page));
         if (prevState.pageType !== currentPage) this.setState({ pageType: currentPage }); // niby potrzebne ale dziala bez tego
     };
+
     render () {
         const { children } = this.props;
         const { pageType } = this.state;
