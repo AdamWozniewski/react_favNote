@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyle from 'theme/GlobalStyles';
 import { theme } from 'theme/mainTheme';
-import PageContext from "../context";
+import PageContext from '../context';
 
 class MainTemplate extends Component {
     state = {
@@ -13,7 +13,7 @@ class MainTemplate extends Component {
 
     static propTypes = {
         children: PropTypes.element.isRequired,
-        location: PropTypes.object.isRequired,
+        location: PropTypes.oneOfType([PropTypes.object]).isRequired,
     };
 
     componentDidMount () {

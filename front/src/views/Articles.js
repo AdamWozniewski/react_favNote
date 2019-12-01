@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import Card from '../components/molecules/Card/Card';
 import GridTemplate from '../templates/GridTemplate';
 

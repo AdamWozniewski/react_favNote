@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { connect } from 'react-redux';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { Formik, Form } from 'formik';
@@ -37,63 +37,80 @@ const Login = ({
        authAction,
        registerAction,
        ...props,
-   }) =>
-    <AuthTemplate>
-        <Formik
-            initialValues={{
-                username: '',
-                password: '',
-                ...(props.isRegistration && { registration: '' })
-            }}
-            onSubmit={({ username, password }) => authAction(username, password)}
-        >
-            {({ handleChange, handleBlur, values }) => {
-                const { isRegistration } = props;
-                if (userID) return <Redirect to="/" />;
-                else return (
-                    <>
-                        <Heading>Zaloguj się</Heading>
-                        <StyledForm>
-                            <StyledInput
-                                name="username"
-                                type="text"
-                                placeholder="Login"
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                value={values.username}
-                            />
-                            <StyledInput
-                                name="password"
-                                type="password"
-                                placeholder="Hasło"
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                value={values.password}
-                            />
-                            {isRegistration && <StyledInput
-                                name="registration"
-                                type="password"
-                                placeholder="Powtórz hasło"
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                value={values.registration}
-                            />}
-                            <Button
-                                type="submit"
-                                activecolor="notes"
-                                onClick={() => isRegistration ? registerAction() : authAction()}
-                            >
-                                {isRegistration ? 'Zarejestruj się' : 'Zaloguj się'}
-                            </Button>
+   }) => {
+    const [isDisabled, setDisabled] = useState(false);
+    const changeDisabled = (firstField, secondField) => {
+        const disabled = firstField === secondField &&
+            !(firstField === '' || secondField === '');
+        setDisabled(disabled);
+    };
+    return (
+        <AuthTemplate>
+            <Formik
+                initialValues={{
+                    username: '',
+                    password: '',
+                    ...(props.isRegistration && { confirmPassword: '' })
+                }}
+                onSubmit={({ username, password }) => props.isRegistration
+                    ? registerAction(username, password)
+                    : authAction(username, password)}
+            >
+                {({ handleChange, handleBlur, values }) => {
+                    const { isRegistration } = props;
+                    if (userID) return <Redirect to="/" />;
+                    else return (
+                        <>
+                            <Heading>Zaloguj się</Heading>
+                            <StyledForm>
+                                <StyledInput
+                                    name="username"
+                                    type="text"
+                                    placeholder="Login"
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.username}
+                                />
+                                <StyledInput
+                                    name="password"
+                                    type="password"
+                                    placeholder="Hasło"
+                                    onBlur={handleBlur}
+                                    onChange={event => {
+                                        changeDisabled(event.target.value, values.confirmPassword);
+                                        handleChange(event);
+                                    }}
+                                    value={values.password}
+                                />
+                                {isRegistration && <StyledInput
+                                    name="confirmPassword"
+                                    type="password"
+                                    placeholder="Powtórz hasło"
+                                    onBlur={handleBlur}
+                                    onChange={event => {
+                                        changeDisabled(values.password, event.target.value);
+                                        handleChange(event);
+                                    }}
+                                    value={values.confirmPassword}
+                                />}
+                                <Button
+                                    type="submit"
+                                    activecolor="notes"
+                                    disabled={!isDisabled}
+                                >
+                                    {isRegistration ? 'Zarejestruj się' : 'Zaloguj się'}
+                                </Button>
 
-                            <StyledLink to={!isRegistration ? routes.registration : routes.login}>{!isRegistration ? 'Chcę mieć konto!' : 'Mam juz konto'}</StyledLink>
-                        </StyledForm>
-                    </>
+                                <StyledLink to={!isRegistration ? routes.registration : routes.login}>{!isRegistration ? 'Chcę mieć konto!' : 'Mam juz konto'}</StyledLink>
+                            </StyledForm>
+                        </>
 
-                )
-            }}
-        </Formik>
-    </AuthTemplate>;
+                    )
+                }}
+            </Formik>
+        </AuthTemplate>
+    );
+};
 Login.propTypes = {
     userID: PropTypes.object,
     authAction: PropTypes.func.isRequired,

@@ -1,14 +1,14 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import styled from 'styled-components';
-import PropTypes from "prop-types";
-import UserPageTemplate from "./UserPageTemplate";
-import Input from "../components/atomic/Input/Input";
-import Heading from "../components/atomic/Heading/Heading";
-import Paragraph from "../components/atomic/Paragraph/Paragraph";
-import withContext from "../hoc/withContext";
-import ButtonIcon from "../components/atomic/ButtonIcon/ButtonIcon";
-import plus from './../assets/icons/plus.svg';
-import NewItemBar from "../components/organisms/NewItemBar/NewItemBar";
+import PropTypes from 'prop-types';
+import UserPageTemplate from './UserPageTemplate';
+import Input from '../components/atomic/Input/Input';
+import Heading from '../components/atomic/Heading/Heading';
+import Paragraph from '../components/atomic/Paragraph/Paragraph';
+import withContext from '../hoc/withContext';
+import ButtonIcon from '../components/atomic/ButtonIcon/ButtonIcon';
+import plus from '../assets/icons/plus.svg';
+import NewItemBar from '../components/organisms/NewItemBar/NewItemBar';
 
 const StyledWrapper = styled.div`
   position: relative;

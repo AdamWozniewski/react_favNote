@@ -1,13 +1,13 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import styled from "styled-components";
-import Input from "../../atomic/Input/Input";
-import Button from "../../atomic/Button/Button";
-import withContext from "../../../hoc/withContext";
-import Heading from "../../atomic/Heading/Heading";
-import { addItemAction } from "../../../actions";
 import { Formik, Form } from 'formik';
+import styled from 'styled-components';
+import Input from '../../atomic/Input/Input';
+import Button from '../../atomic/Button/Button';
+import withContext from '../../../hoc/withContext';
+import Heading from '../../atomic/Heading/Heading';
+import { addItemAction } from '../../../actions';
 
 const StyledWrapper = styled.div`
   z-index: 9999;

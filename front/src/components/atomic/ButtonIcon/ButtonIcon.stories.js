@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { storiesOf } from '@storybook/react';
-import ButtonIcon from './ButtonIcon';
+import ButtonIcon from 'ButtonIcon';
 import bulb from 'assets/icons/bulb.svg';
 import logout from 'assets/icons/logout.svg';
 import pen from 'assets/icons/pen.svg';

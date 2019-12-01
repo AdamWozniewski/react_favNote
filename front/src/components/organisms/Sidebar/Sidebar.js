@@ -1,14 +1,14 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import styled from "styled-components";
-import ButtonIcon from "../../atomic/ButtonIcon/ButtonIcon";
+import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import logo from 'assets/icons/logo.svg';
 import bulb from 'assets/icons/bulb.svg';
 import logout from 'assets/icons/logout.svg';
 import pen from 'assets/icons/pen.svg';
 import twitter from 'assets/icons/twitter.svg';
-import withContext from "../../../hoc/withContext";
-import PropTypes from "prop-types";
+import ButtonIcon from '../../atomic/ButtonIcon/ButtonIcon';
+import withContext from '../../../hoc/withContext';
 
 const StylledWrapper = styled.nav`
   position: fixed;

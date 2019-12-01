@@ -1,8 +1,8 @@
-import React from "react";
-import { render } from "@testing-library/react";
-import Heading from "./Heading";
-import { ThemeProvider } from "styled-components";
-import { theme } from "../../../theme/mainTheme";
+import React from 'react';
+import { render } from '@testing-library/react';
+import Heading from './Heading';
+import { ThemeProvider } from 'styled-components';
+import { theme } from '../../../theme/mainTheme';
 
 describe('Heading Component', () => {
     it('Render children text', () => {

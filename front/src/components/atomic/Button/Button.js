@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { theme as buttonColor} from "../../../theme/mainTheme";
+import { theme as buttonColor} from '../../../theme/mainTheme';
 
 const Button = styled.button`
   background-color: ${({ activecolor }) => buttonColor[activecolor]};

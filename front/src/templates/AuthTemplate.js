@@ -1,8 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Heading from "../components/atomic/Heading/Heading";
 import logoImg from 'assets/icons/logo.svg';
-import PropTypes from "prop-types";
+import Heading from '../components/atomic/Heading/Heading';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -39,9 +39,9 @@ const AuthTemplate = ({ children }) => (
     </StyledWrapper>
 );
 AuthTemplate.propTypes = {
-    // children: PropTypes.object,
+    children: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };
-AuthTemplate.defaultProps = {
-    // children: '',
-};
+// AuthTemplate.defaultProps = {
+//     // children: '',
+// };
 export default AuthTemplate;

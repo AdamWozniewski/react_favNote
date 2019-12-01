@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
-import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import Button from '../../atomic/Button/Button';
 import Heading from '../../atomic/Heading/Heading';
 import Paragraph from '../../atomic/Paragraph/Paragraph';
 import linkIcon from 'assets/icons/link.svg';
-import { removeItemAction } from "../../../actions";
-import withContext from "../../../hoc/withContext";
+import { removeItemAction } from '../../../actions';
+import withContext from '../../../hoc/withContext';
 
 const CARD_TYPE = {
   notes: 'notes',

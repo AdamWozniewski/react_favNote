@@ -50,26 +50,22 @@ export const addItemAction = (itemType, itemContent) => (dispatch, getState) => 
         .catch(err => console.log(err))
 };
 
-export const auth = (username, password) => dispatch => {
-    console.log('logo   ')
-    return axios
+export const auth = (username, password) => dispatch =>
+    axios
         .post('http://localhost:9000/api/user/login', {
             username,
             password
         })
         .then(data => dispatch(authSuccess(data)))
         .catch(err => dispatch(authErr(err)));
-}
-export const register = (username, password) => dispatch => {
-    console.log('rejestracja')
-    return axios.post('http://localhost:9000/api/user/register', {
+
+export const register = (username, password) => dispatch =>
+    axios.post('http://localhost:9000/api/user/register', {
         username,
         password
     })
         .then(data => dispatch(authSuccess(data)))
         .catch(err => dispatch(authErr(err)));
-}
-
 
 export const fetchItemsAction = type => (dispatch, getState) =>
     axios.post('http://localhost:9000/api/notes', {
