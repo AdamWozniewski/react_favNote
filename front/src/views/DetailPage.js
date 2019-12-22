@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 import DetailsTemplate from '../templates/DetailsTemplate';
 import { routes } from '../routes';
+import { matchDetailCardByParam } from '../actions/itemsActions';
+import { typesOfItems } from '../static/types';
 import withContext from '../hoc/withContext';
 
 class DetailPage extends Component {
     state = {
-        pageType: 'notes',
+        pageType: typesOfItems.notes,
         activeItem: {
             title: '',
             created: '',
@@ -29,17 +30,16 @@ class DetailPage extends Component {
                 created: PropTypes.string.isRequired,
             }),
         ),
-        // match: PropTypes.oneOf([PropTypes.object]),
-        match: PropTypes.object,
+        match: PropTypes.oneOfType([PropTypes.object]),
     };
 
     static defaultProps = {
-        pageContext: 'notes',
+        pageContext: typesOfItems.notes,
         activeItem: [],
         match: {},
     };
 
-    componentDidMount() {
+    componentDidMount () {
         const { match } = this.props;
         if (!this.props.activeItem) {
             const [ activeItem ] = this.props.activeItem;
@@ -48,22 +48,21 @@ class DetailPage extends Component {
             });
         } else {
             const { id } = match.params;
-            axios.get(`http://localhost:9000/api${match.path}/${id}`)
-                .then(({ data: activeItem }) => {
-                    return this.setState({
-                        activeItem,
-                    })
-                });
+
+            matchDetailCardByParam(match.path, id).then(({ data: activeItem }) =>
+                this.setState({
+                    activeItem,
+            }));
         }
         switch (match.path) {
-            case routes.twitter: this.setState({ pageType: 'twitters' }); break;
-            case routes.note: this.setState({ pageType: 'notes' }); break;
-            case routes.article: this.setState({ pageType: 'articles' }); break;
-            default: this.setState({ pageType: 'notes' }); break;
+            case routes.twitter: this.setState({ pageType: typesOfItems.twitters }); break;
+            case routes.note: this.setState({ pageType: typesOfItems.notes }); break;
+            case routes.article: this.setState({ pageType: typesOfItems.articles }); break;
+            default: this.setState({ pageType: typesOfItems.notes }); break;
         }
     }
 
-    render() {
+    render () {
         const { pageContext } = this.props;
         const { activeItem } = this.state;
         const { title, created, content, articleUrl, twitterName} = activeItem;
@@ -80,10 +79,10 @@ class DetailPage extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    if (state[ownProps.pageContext])
+const mapStateToProps = ({ items }, ownProps) => {
+    if (items[ownProps.pageContext])
         return {
-            activeItem: state[ownProps.pageContext].filter(item => item.id === ownProps.match.params.id)
+            activeItem: items[ownProps.pageContext].filter(item => item.id === ownProps.match.params.id)
         };
     return null
 };

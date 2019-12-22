@@ -6,5 +6,6 @@ const ACTIONS = {
     AUTH_SUCCESS: 'AUTH_SUCCESS',
 
     FETCH_ITEMS: 'FETCH_ITEMS',
+    FILTERED_ITEMS: 'FILTERED_ITEMS',
 };
 export default ACTIONS;

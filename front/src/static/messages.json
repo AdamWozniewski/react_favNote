@@ -1,3 +1,42 @@
 {
+  "views": {
+    "login": {
+      "logIn": "Zaloguj się",
+      "register": "Zarejestruj się",
+      "iWantAccount": "Chcę mieć konto!",
+      "iHaveAccount": "Mam juz konto",
+      "repeatPassword": "Powtórz hasło",
+      "password": "Hasło",
+      "email": "email"
+    }
 
+  },
+  "templates": {
+    "auth": {
+      "yourPlaceInWeb": "Twoje miejsce w sieci na swoje informacje",
+      "logo": "Obrazek przedstawia logo"
+    },
+    "grid": {
+      "search": "Szukaj"
+    },
+    "details": {
+      "openArticle": "Otwórz Artykuł",
+      "twittersAvatar": "https://avatars.io/twitter/",
+      "closeSave": "Zapisz/Zamknij"
+    }
+  },
+  "components": {
+    "newItemBar": {
+      "createNew": "Stwórz nowy",
+      "nameOfProfile": "Nazwa Profilu",
+      "title": "Tytuł",
+      "placeholderLinkToArticle": "Link do artykułu",
+      "placeholderNameOfProfile": "Nazwa profilu",
+      "placeholderContent": "Treść",
+      "add": "Dodaj"
+    },
+    "card": {
+      "remove": "Usuń"
+    }
+  }
 }

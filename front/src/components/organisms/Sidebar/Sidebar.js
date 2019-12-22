@@ -9,6 +9,8 @@ import pen from 'assets/icons/pen.svg';
 import twitter from 'assets/icons/twitter.svg';
 import ButtonIcon from '../../atomic/ButtonIcon/ButtonIcon';
 import withContext from '../../../hoc/withContext';
+import { routes } from '../../../routes';
+import { typesOfItems } from '../../../static/types';
 
 const StylledWrapper = styled.nav`
   position: fixed;
@@ -44,26 +46,28 @@ const StyledLinksList = styled.ul`
   list-style: none;
 `;
 
+const { notes, twitters, articles, login } = routes;
+
 const SideBar = ({ pageContext }) =>
     <StylledWrapper activeColor={pageContext}>
-        <StyledLogoLink to="/notes" />
+        <StyledLogoLink to={notes} />
         <StyledLinksList>
             <li>
-                <ButtonIcon as={NavLink} activeclass="active" to="/notes" icon={pen} />
+                <ButtonIcon as={NavLink} activeclass="active" to={routes.notes} icon={pen} />
             </li>
             <li>
-                <ButtonIcon as={NavLink} activeclass="active" to="/twitters" icon={twitter} />
+                <ButtonIcon as={NavLink} activeclass="active" to={twitters} icon={twitter} />
             </li>
             <li>
-                <ButtonIcon as={NavLink} activeclass="active" to="/articles" icon={bulb} />
+                <ButtonIcon as={NavLink} activeclass="active" to={articles} icon={bulb} />
             </li>
         </StyledLinksList>
-        <StyledLogoutButton as={NavLink} to="/login" icon={logout} />
+        <StyledLogoutButton as={NavLink} to={login} icon={logout} />
     </StylledWrapper>;
 SideBar.propTypes = {
     pageContext: PropTypes.string,
 };
 SideBar.defaultProps = {
-    pageContext: 'notes',
+    pageContext: typesOfItems.notes,
 };
 export default withContext(SideBar);

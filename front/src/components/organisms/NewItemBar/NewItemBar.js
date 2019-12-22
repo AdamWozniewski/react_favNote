@@ -7,7 +7,11 @@ import Input from '../../atomic/Input/Input';
 import Button from '../../atomic/Button/Button';
 import withContext from '../../../hoc/withContext';
 import Heading from '../../atomic/Heading/Heading';
-import { addItemAction } from '../../../actions';
+import { addItemAction } from '../../../actions/itemsActions';
+import { typesOfItems } from '../../../static/types';
+import messages from '../../../static/messages';
+
+const { newItemBar } = messages.components;
 
 const StyledWrapper = styled.div`
   z-index: 9999;
@@ -40,9 +44,17 @@ const StyledForm = styled(Form)`
   display: flex;
   flex-direction: column;
 `;
+
+const INPUTS = {
+    TITLE: 'title',
+    ARTICLE_URL: 'articleURL',
+    TWITTER_NAME: 'twitterName',
+    CONTENT: 'content',
+};
+
 const NewItemBar = ({ pageContext, isVisible, addItem, handleClose }) =>
     <StyledWrapper isVisible={isVisible} activeColor={pageContext}>
-        <Heading big>Stwórz nowy: {pageContext}</Heading>
+        <Heading big>{newItemBar.createNew}: {pageContext}</Heading>
         <Formik
             initialValues={{
                 title: '',
@@ -51,48 +63,49 @@ const NewItemBar = ({ pageContext, isVisible, addItem, handleClose }) =>
                 twitterName: '',
                 created: '',
             }}
-            onSubmit={values => {
+            onSubmit={(values, { resetForm }) => {
                 addItem(pageContext, {...values});
                 handleClose();
+                resetForm();
             }}
         >
             {({ handleChange, handleBlur, values }) => (
                 <StyledForm>
                     <Input
                         type="text"
-                        name="title"
-                        placeholder={pageContext === 'twitters' ? 'Nazwa Profilu' : 'Tytuł'}
+                        name={INPUTS.TITLE}
+                        placeholder={pageContext === typesOfItems.twitters ? newItemBar.nameOfProfile : newItemBar.title}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.title}
                     />
-                    {pageContext === 'articles' &&
+                    {pageContext === typesOfItems.articles &&
                         <StyledInput
                             onBlur={handleBlur}
                             onChange={handleChange}
                             type="text"
-                            name="articleURL"
-                            placeholder="Link do artykułu"
+                            name={INPUTS.ARTICLE_URL}
+                            placeholder={newItemBar.placeholderLinkToArticle}
                             value={values.articleURL}
                         />}
-                    {pageContext === 'twitters' &&
+                    {pageContext === typesOfItems.twitters &&
                         <StyledInput
                             onBlur={handleBlur}
                             onChange={handleChange}
                             type="text"
-                            name="twitterName"
-                            placeholder="Nazwa profilu"
+                            name={INPUTS.TWITTER_NAME}
+                            placeholder={newItemBar.placeholderNameOfProfile}
                             value={values.twitterName}
                         />}
                     <StyledTextArea
                         as="textarea"
-                        placeholder="Treśc"
-                        name="content"
+                        placeholder={newItemBar.placeholderContent}
+                        name={INPUTS.CONTENT}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.content}
                     />
-                    <Button type="submit" activecolor={pageContext}>Dodaj</Button>
+                    <Button type="submit" activecolor={pageContext}>{newItemBar.add}</Button>
                 </StyledForm>
             )}
         </Formik>
@@ -104,7 +117,7 @@ NewItemBar.propTypes = {
     handleClose: PropTypes.func.isRequired,
 };
 NewItemBar.defaultProps = {
-    pageContext: 'notes',
+    pageContext: typesOfItems.notes,
 };
 const mapDispatchToProps = dispatch => ({
     addItem: (itemType, itemContent) => dispatch(addItemAction(itemType, itemContent)),

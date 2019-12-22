@@ -1,39 +1,48 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Card from '../components/molecules/Card/Card';
+import { typesOfItems } from '../static/types';
 import GridTemplate from '../templates/GridTemplate';
+import withFilteredItems from '../hoc/withFilteredItems';
+import { filteredItems } from '../actions/dispatchers/itemsDispatchers';
 
-const Notes = ({ notes, userID }) => {
-    if  (!userID) return <Redirect to="/login" />;
-    else return (
-        <GridTemplate pageType='notes'>
-            <>
-                {notes.map(({
-                   id,
-                   title,
-                   content,
-                   created}) =>
-                        <Card
-                            id={id}
-                            key={id}
-                            cardType="notes"
-                            title={title}
-                            content={content}
-                            created={created}
-                        />)
-                }
-            </>
-        </GridTemplate>
-    )
+const Notes = ({ items }) =>
+    <GridTemplate pageType={typesOfItems.notes}>
+        <>
+            {items.map(({
+                id,
+                title,
+                content,
+                created
+            }) =>
+                <Card
+                    id={id}
+                    key={id}
+                    cardType={typesOfItems.notes}
+                    title={title}
+                    content={content}
+                    created={created}
+                />
+            )}
+        </>
+    </GridTemplate>;
+
+Notes.propTypes = {
+    items: PropTypes.oneOfType([PropTypes.array]),
 };
-Notes.propsTypes = {
-    notes: PropTypes.array.isRequired,
+Notes.defaultProps = {
+    items: [],
 };
-const mapStateToProps = ({ notes, userID = null }) => ({
+const mapStateToProps = ({ items: { notes, filtered }, user: { userID = null } }) => ({
     notes,
-    userID
+    filtered,
+    userID,
+    pageType: typesOfItems.notes,
 });
 
-export default connect(mapStateToProps, null)(Notes);
+const mapDispatchToProps = dispatch => ({
+    filteredItemsByContext: (itemType, itemContent) => dispatch(filteredItems(itemType, itemContent)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withFilteredItems(Notes));

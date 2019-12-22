@@ -7,8 +7,11 @@ import Button from '../../atomic/Button/Button';
 import Heading from '../../atomic/Heading/Heading';
 import Paragraph from '../../atomic/Paragraph/Paragraph';
 import linkIcon from 'assets/icons/link.svg';
-import { removeItemAction } from '../../../actions';
+import { removeItemAction } from '../../../actions/itemsActions';
 import withContext from '../../../hoc/withContext';
+import messages from '../../../static/messages';
+
+const { remove } = messages.components.card;
 
 const CARD_TYPE = {
   notes: 'notes',
@@ -57,7 +60,7 @@ const StyledLinkButton = styled.a`
   width: 47px;
   height: 47px;
   border-radius: 50px;
-  background: white url('${linkIcon}') no-repeat;
+  background: white url('${ linkIcon }') no-repeat;
   background-size: contain;
   position: absolute;
   right: 25px;
@@ -73,7 +76,7 @@ class Card extends Component {
         redirect: true,
     });
 
-    render() {
+    render () {
         const { redirect } = this.state;
         const {
             id,
@@ -100,7 +103,7 @@ class Card extends Component {
                     </Paragraph>
                 </InnerWrapper>
                 <InnerWrapper>
-                    <Button secondary onClick={() => removeItem(pageContext, id)}>Remove</Button>
+                    <Button secondary onClick={() => removeItem(pageContext, id)}>{remove}</Button>
                 </InnerWrapper>
             </StyledWrapper>
         );

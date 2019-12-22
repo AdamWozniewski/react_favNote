@@ -30,7 +30,7 @@ const Root = () =>
                     <Route exact path={login} component={Login} />
                     <Route exact path={registration} render={() => <Login isRegistration />} />
 
-                    <Route exact path={home} render={() => <Redirect to="/notes"/>} />
+                    <Route exact path={home} render={() => <Redirect to={notes} />} />
 
                     <Route exact path={notes} component={Notes}/>
                     <Route path={note} component={DetailPage}/>

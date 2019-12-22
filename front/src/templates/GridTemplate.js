@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import UserPageTemplate from './UserPageTemplate';
@@ -6,9 +7,15 @@ import Input from '../components/atomic/Input/Input';
 import Heading from '../components/atomic/Heading/Heading';
 import Paragraph from '../components/atomic/Paragraph/Paragraph';
 import withContext from '../hoc/withContext';
+import { filteredItems } from '../actions/dispatchers/itemsDispatchers';
 import ButtonIcon from '../components/atomic/ButtonIcon/ButtonIcon';
 import plus from '../assets/icons/plus.svg';
 import NewItemBar from '../components/organisms/NewItemBar/NewItemBar';
+import messages from '../static/messages';
+import { typesOfItems } from '../static/types';
+
+const { notes } = typesOfItems;
+const { grid } = messages.templates;
 
 const StyledWrapper = styled.div`
   position: relative;
@@ -42,6 +49,7 @@ const StyledButtonIcon = styled(ButtonIcon)`
   z-index: 10000;
   background-size: 35%;
 `;
+
 class GridTemplate extends Component {
     state = {
         isNewItemBarVision: false,
@@ -50,36 +58,66 @@ class GridTemplate extends Component {
     static propTypes = {
         children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
         pageContext: PropTypes.string,
+        filteredItemsByContext: PropTypes.func.isRequired,
+        items: PropTypes.oneOfType([PropTypes.object]),
     };
 
     static defaultProps = {
-        pageContext: 'notes',
+        pageContext: notes,
+        items: {},
     };
 
     handleNewItemBarToggle = () => this.setState(prevState => ({
         isNewItemBarVision: !prevState.isNewItemBarVision,
     }));
 
-    render() {
+    filterItems = ({ target: { value } }) => {
+        const { items, pageContext, filteredItemsByContext } = this.props;
+        const filteredItemsByType = items[pageContext].filter(({
+                title,
+                created,
+                twitterName,
+                articleURL,
+                content,
+            }) =>
+                title.toLowerCase().includes(value.toLowerCase()) ||
+                created.toLowerCase().includes(value.toLowerCase()) ||
+                twitterName.toLowerCase().includes(value.toLowerCase()) ||
+                articleURL.toLowerCase().includes(value.toLowerCase()) ||
+                content.toLowerCase().includes(value.toLowerCase())
+        );
+        filteredItemsByContext(pageContext, filteredItemsByType);
+    };
+
+    render () {
         const { children, pageContext } = this.props;
         const { isNewItemBarVision } = this.state;
         return (
             <UserPageTemplate pageType={pageContext}>
                 <StyledWrapper>
                     <StyledPageHeader>
-                        <Input search placeholder="Szukaj" />
+                        <Input onChange={this.filterItems} search placeholder={grid.search} />
                         <StyledPageHeading big>{pageContext}</StyledPageHeading>
                         <StyledParagraph>{pageContext}</StyledParagraph>
                     </StyledPageHeader>
                     <StyledGrid>
-                        {children}
+                        { children }
                     </StyledGrid>
-                    <StyledButtonIcon onClick={this.handleNewItemBarToggle} activeColor={pageContext} icon={plus}/>
-                    <NewItemBar isVisible={isNewItemBarVision} handleClose={this.handleNewItemBarToggle}/>
+                    <StyledButtonIcon
+                        onClick={this.handleNewItemBarToggle}
+                        activeColor={pageContext}
+                        icon={plus}
+                    />
+                    <NewItemBar isVisible={isNewItemBarVision} handleClose={this.handleNewItemBarToggle} />
                 </StyledWrapper>
             </UserPageTemplate>
         );
     }
 }
-
-export default withContext(GridTemplate);
+const mapStateToProps = ({ items }) => ({
+    items,
+});
+const mapDispatchToProps = dispatch => ({
+    filteredItemsByContext: (itemType, itemContent) => dispatch(filteredItems(itemType, itemContent)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(withContext(GridTemplate));

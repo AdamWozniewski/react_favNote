@@ -3,6 +3,7 @@ export const routes = {
 
     notes: '/notes',
     note: '/notes/:id',
+    apiNote: '/note',
 
     twitters: '/twitters',
     twitter: '/twitters/:id',
@@ -12,4 +13,5 @@ export const routes = {
 
     login: '/login',
     registration: '/registration',
+    apiUser: '/user',
 };

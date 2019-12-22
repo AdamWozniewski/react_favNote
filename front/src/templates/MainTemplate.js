@@ -5,10 +5,13 @@ import { ThemeProvider } from 'styled-components';
 import GlobalStyle from 'theme/GlobalStyles';
 import { theme } from 'theme/mainTheme';
 import PageContext from '../context';
+import { typesOfItems } from '../static/types';
+
+const { notes, twitters, articles } = typesOfItems;
 
 class MainTemplate extends Component {
     state = {
-        pageType: 'notes',
+        pageType: notes,
     };
 
     static propTypes = {
@@ -25,14 +28,14 @@ class MainTemplate extends Component {
     }
 
     setCurrentPage = (prevState = '') => {
-        const pageTypes = ['twitters', 'articles', 'notes'];
+        const pageTypes = [twitters, articles, notes];
         const {
             location: {
                 pathname
             }
         } = this.props;
         const [ currentPage ] = pageTypes.filter(page => pathname.includes(page));
-        if (prevState.pageType !== currentPage) this.setState({ pageType: currentPage }); // niby potrzebne ale dziala bez tego
+        if (prevState.pageType !== currentPage) this.setState({ pageType: currentPage });
     };
 
     render () {

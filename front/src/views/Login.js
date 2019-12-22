@@ -5,11 +5,16 @@ import { Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { Formik, Form } from 'formik';
 import Button from '../components/atomic/Button/Button';
-import { auth, register } from '../actions';
+import { auth, register } from '../actions/userActions';
 import AuthTemplate from '../templates/AuthTemplate';
 import { routes } from '../routes';
 import Heading from '../components/atomic/Heading/Heading';
 import Input from '../components/atomic/Input/Input';
+import { typesOfItems } from '../static/types';
+import messages from '../static/messages';
+
+const { home } = routes;
+const { login } = messages.views;
 
 const StyledForm = styled(Form)`
   display: flex;
@@ -32,17 +37,25 @@ const StyledLink = styled(Link)`
   text-transform: uppercase;
   margin: 20px 0 50px;
 `;
+
+const INPUTS = {
+  USERNAME: 'username',
+  CONFIRM_PASSWORD: 'confirmPassword',
+  PASSWORD: 'password',
+};
+
 const Login = ({
        userID,
        authAction,
        registerAction,
-       ...props,
+       ...props
    }) => {
     const [isDisabled, setDisabled] = useState(false);
     const changeDisabled = (firstField, secondField) => {
-        const disabled = firstField === secondField &&
-            !(firstField === '' || secondField === '');
-        setDisabled(disabled);
+        const check = props.isRegistration
+            ? firstField === secondField && !(firstField === '' || secondField === '')
+            : !(firstField === '' || secondField === '');
+        setDisabled(check);
     };
     return (
         <AuthTemplate>
@@ -58,34 +71,38 @@ const Login = ({
             >
                 {({ handleChange, handleBlur, values }) => {
                     const { isRegistration } = props;
-                    if (userID) return <Redirect to="/" />;
+                    if (userID) return <Redirect to={home} />;
                     else return (
                         <>
-                            <Heading>Zaloguj się</Heading>
+                            <Heading>{isRegistration ? login.register : login.logIn}</Heading>
                             <StyledForm>
                                 <StyledInput
-                                    name="username"
+                                    name={INPUTS.USERNAME}
                                     type="text"
-                                    placeholder="Login"
+                                    placeholder={login.email}
                                     onBlur={handleBlur}
-                                    onChange={handleChange}
+                                    onChange={event => {
+                                        changeDisabled(event.target.value, values.password);
+                                        handleChange(event);
+                                    }}
                                     value={values.username}
                                 />
                                 <StyledInput
-                                    name="password"
+                                    name={INPUTS.PASSWORD}
                                     type="password"
-                                    placeholder="Hasło"
+                                    placeholder={login.password}
                                     onBlur={handleBlur}
                                     onChange={event => {
-                                        changeDisabled(event.target.value, values.confirmPassword);
+                                        if (isRegistration) changeDisabled(event.target.value, values.confirmPassword);
+                                        else changeDisabled(values.username, event.target.value);
                                         handleChange(event);
                                     }}
                                     value={values.password}
                                 />
                                 {isRegistration && <StyledInput
-                                    name="confirmPassword"
+                                    name={INPUTS.CONFIRM_PASSWORD}
                                     type="password"
-                                    placeholder="Powtórz hasło"
+                                    placeholder={login.repeatPassword}
                                     onBlur={handleBlur}
                                     onChange={event => {
                                         changeDisabled(values.password, event.target.value);
@@ -95,16 +112,17 @@ const Login = ({
                                 />}
                                 <Button
                                     type="submit"
-                                    activecolor="notes"
+                                    activecolor={typesOfItems.notes}
                                     disabled={!isDisabled}
                                 >
-                                    {isRegistration ? 'Zarejestruj się' : 'Zaloguj się'}
+                                    {isRegistration ? login.register : login.logIn}
                                 </Button>
 
-                                <StyledLink to={!isRegistration ? routes.registration : routes.login}>{!isRegistration ? 'Chcę mieć konto!' : 'Mam juz konto'}</StyledLink>
+                                <StyledLink to={!isRegistration ? routes.registration : routes.login}>
+                                    {!isRegistration ? login.iWantAccount : login.iHaveAccount}
+                                </StyledLink>
                             </StyledForm>
                         </>
-
                     )
                 }}
             </Formik>
@@ -112,7 +130,7 @@ const Login = ({
     );
 };
 Login.propTypes = {
-    userID: PropTypes.object,
+    userID: PropTypes.oneOfType([PropTypes.object]),
     authAction: PropTypes.func.isRequired,
     registerAction: PropTypes.func.isRequired,
     isRegistration: PropTypes.bool,
@@ -121,11 +139,11 @@ Login.defaultProps = {
     isRegistration: false,
     userID: null,
 };
-const mapStateToProps = ({userID = null}) => ({
+const mapStateToProps = ({ user: { userID } }) => ({
     userID,
 });
 const mapDispatchToProps = dispatch => ({
-    authAction: (login, psswd) => dispatch(auth(login, psswd)),
-    registerAction: (login, psswd) => dispatch(register(login, psswd)),
+    authAction: (lgn, psswd) => dispatch(auth(lgn, psswd)),
+    registerAction: (lgn, psswd) => dispatch(register(lgn, psswd)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

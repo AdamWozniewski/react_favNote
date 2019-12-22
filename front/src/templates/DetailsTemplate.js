@@ -7,6 +7,12 @@ import Paragraph from '../components/atomic/Paragraph/Paragraph';
 import Button from '../components/atomic/Button/Button';
 import Heading from '../components/atomic/Heading/Heading';
 import withContext from '../hoc/withContext';
+import { routes } from '../routes/index';
+import { typesOfItems } from '../static/types';
+import messages from '../static/messages';
+
+const { home } = routes;
+const { details } = messages.templates;
 
 const StyledWrapper = styled.div`
   padding: 25px 150px 25px 70px;
@@ -52,6 +58,7 @@ const StyledImage = styled.img`
   height: 120px;
   border-radius: 50%;
 `;
+
 const DetailsTemplate = ({ pageContext, title, created, content, articleUrl, twitterName }) =>
   <UserPageTemplate pageType={pageContext}>
     <StyledWrapper>
@@ -60,9 +67,9 @@ const DetailsTemplate = ({ pageContext, title, created, content, articleUrl, twi
         <StyledParagraph>{created}</StyledParagraph>
       </StyledPageHeader>
       <Paragraph>{content}</Paragraph>
-      {pageContext === 'articles' && <StyledLink href={articleUrl}>Open article</StyledLink>}
-      {pageContext === 'twitters' && <StyledImage alt={title} src={`https://avatars.io/twitter/${twitterName}`} />}
-      <Button as={Link} to={`/${pageContext}`} activecolor={pageContext}>Zapisz/Zamknij</Button>
+      {pageContext === typesOfItems.articles && <StyledLink href={articleUrl}>{details.openArticle}</StyledLink>}
+      {pageContext === typesOfItems.twitters && <StyledImage alt={title} src={`${details.twittersAvatar}${twitterName}`} />}
+      <Button as={Link} to={`${home}${pageContext}`} activecolor={pageContext}>{details.closeSave}</Button>
     </StyledWrapper>
   </UserPageTemplate>;
 
@@ -76,11 +83,12 @@ DetailsTemplate.propTypes = {
 };
 
 DetailsTemplate.defaultProps = {
-  pageContext: 'notes',
+  pageContext: typesOfItems.notes,
   title: '',
   created: '',
   content: '',
   articleUrl: '',
   twitterName: '',
 };
+
 export default withContext(DetailsTemplate);

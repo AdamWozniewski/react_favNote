@@ -1,5 +1,8 @@
 import React from 'react';
+import { typesOfItems } from '../static/types';
 
-const pageContext = React.createContext('notes');
+const { notes } = typesOfItems;
+
+const pageContext = React.createContext(notes);
 
 export default pageContext;
