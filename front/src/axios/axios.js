@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'front/src/axios/axios';
 
 const instance = axios.create({
     baseURL: 'http://localhost:9000/api',

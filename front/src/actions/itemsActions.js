@@ -1,4 +1,4 @@
-import instance from '../static/axios';
+import instance from '../axios/axios';
 import { removeItem, addItem, fetchItems } from './dispatchers/itemsDispatchers';
 import { routes } from '../routes';
 

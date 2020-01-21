@@ -1,4 +1,4 @@
-import instance from '../static/axios';
+import instance from '../axios/axios';
 import { authErr, authSuccess } from './dispatchers/userDispatchers';
 import { routes } from '../routes';
 
